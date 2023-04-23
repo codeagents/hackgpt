@@ -140,6 +140,7 @@ def main():
         if task.action == ActionType.CODE:
             code_result = task.code(task.content, objective if not code_history else code_history)
             code_results.append(code_result)
+            code_history.append(code_result)
         elif task.action == ActionType.REVIEW:
             code_to_review = "\n".join(code_history)  # Provide all the generated code so far
             review_result = task.review(code_to_review)
