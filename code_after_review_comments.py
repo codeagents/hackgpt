@@ -1,3 +1,41 @@
+"""
+{
+  "suggestions": [
+    {
+      "code": "def initialize_simplex(x0, scale=0.1):",
+      "comment": "Add a scale parameter to the initialize_simplex function to allow for more flexibility in the initial simplex size."
+    },
+    {
+      "code": "x[i] += scale * (x0[i] if x0[i] != 0 else 1)",
+      "comment": "Use the scale parameter in the loop to adjust the size of the initial simplex."
+    },
+    {
+      "code": "def nelder_mead(func, x0, alpha=1, gamma=2, rho=0.5, sigma=0.5, max_iter=1000, tol=1e-6, scale=0.1):",
+      "comment": "Add a scale parameter to the nelder_mead function to pass it to the initialize_simplex function."
+    },
+    {
+      "code": "simplex = initialize_simplex(x0, scale=scale)",
+      "comment": "Pass the scale parameter to the initialize_simplex function when calling it in the nelder_mead function."
+    },
+    {
+      "code": "if np.linalg.norm(simplex[0] - simplex[-1]) < tol:",
+      "comment": "Consider using np.allclose with the atol parameter instead of np.linalg.norm for checking convergence."
+    },
+    {
+      "code": "if np.allclose(simplex[0], simplex[-1], atol=tol):",
+      "comment": "Replace the np.linalg.norm line with np.allclose for checking convergence."
+    },
+    {
+      "code": "def nelder_mead(func, x0, alpha=1, gamma=2, rho=0.5, sigma=0.5, max_iter=1000, tol=1e-6, scale=0.1, callback=None):",
+      "comment": "Add a callback parameter to the nelder_mead function to allow for custom actions during the optimization process."
+    },
+    {
+      "code": "if callback is not None: callback(simplex, simplex_fvals, iteration)",
+      "comment": "Call the callback function with the current simplex, function values, and iteration number if it is provided."
+    }
+  ]
+}
+"""
 import numpy as np
 
 # Added scale parameter for more flexibility in initial simplex size
