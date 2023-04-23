@@ -30,7 +30,7 @@ class Task:
         return f"{self.agent_name} -> {other_agent.name}: {self.content}"
 
     def code(self, objective: str, code_history) -> str:
-        code_history_str = '\n'.join(str(element) for element in code_history)
+        code_history_str = '\n####\n'.join(str(element) for element in code_history)
         prompt = f"Goal: {objective}.\n" \
 f"Previous code history:\n```\n{code_history_str}\n```\n" \
 f"Write code to achieve this. Output the code wrapped in a valid JSON string. Only output JSON and nothing else."
@@ -138,11 +138,13 @@ def main():
         task = task_queue[idx]
         print(f'Running task {idx}.')
         if task.action == ActionType.CODE:
-            code_result = task.code(task.content, objective if not code_history else code_history)
+            code_result_json = task.code(task.content, objective if not code_history else code_history).strip('```')
+            code_result_json = code_result_json.strip()
+            code_result = str(json.loads(code_result_json).get('code'))
             code_results.append(code_result)
             code_history.append(code_result)
         elif task.action == ActionType.REVIEW:
-            code_to_review = "\n".join(code_history)  # Provide all the generated code so far
+            code_to_review = "\n=====\n".join(str(x) for x in code_history)  # Provide all the generated code so far
             review_result = task.review(code_to_review)
             results.append(review_result)
         elif task.action == ActionType.COMMUNICATE:
